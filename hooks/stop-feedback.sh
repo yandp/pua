@@ -123,7 +123,7 @@ UPLOAD_RESPONSE=$(curl -sS --max-time 30 -X POST https://pua-skill.pages.dev/api
 echo "脱敏 session 已匿名上传：$UPLOAD_RESPONSE"
 ```
 
-Do NOT upload anything without user's explicit choice. Call AskUserQuestion NOW.
+Do NOT upload anything without the user explicit choice. Call AskUserQuestion NOW.
 
 ## Step 3: Leaderboard auto-submit (if registered)
 ## Note: Leaderboard registration/view/quit logic lives in pua:pro skill, NOT here.
@@ -147,4 +147,6 @@ FEEDBACK
 # Replace hardcoded flavor and plugin root with actual runtime values.
 _feedback_text="${_feedback_text//__PUA_PLUGIN_ROOT__/${_PLUGIN_ROOT}}"
 _feedback_text="${_feedback_text//__PUA_SESSION_PATH__/${TRANSCRIPT_PATH}}"
-printf '%s\n' "${_feedback_text//\\\"flavor\\\":\\\"阿里\\\"/\\\"flavor\\\":\\\"${_ACTUAL_FLAVOR}\\\"}"
+_pua_pat='\"flavor\":\"阿里\"'
+_pua_rep='\"flavor\":\"'"${_ACTUAL_FLAVOR}"'\"'
+printf '%s\n' "${_feedback_text//${_pua_pat}/${_pua_rep}}"
